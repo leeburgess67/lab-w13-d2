@@ -30,6 +30,20 @@ const createRouter = function (collection) {
       });
   });
 
+  router.post('/', (req, res) => {
+    const newData = req.body
+    collection.insertOne(newData)
+    .then(() => {
+      return collection.find().toArray()
+    })
+    .then((docs) => {
+      res.json(docs);
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  })
+
   router.delete('/:id', (req, res) => {
     const id = req.params.id;
     collection
